@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: humidity-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: humidity-app
+  template:
+    metadata:
+      labels:
+        app: humidity-app
+    spec:
+      containers:
+        - name: humidity-app
+          image: humidity:0.0.1-humidity
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8081
+          volumeMounts:
+            - name: humidity-config-volume
+              mountPath: /data
+              readOnly: true
+      volumes:
+        - name: humidity-config-volume
+          configMap:
+            name: humidity-config

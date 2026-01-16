@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: aggregation-service
+spec:
+  type: NodePort
+  selector:
+    app: aggregation-app
+  ports:
+    - protocol: TCP
+      port: 8082        # interni port Service-a
+      targetPort: 8082 # port u containeru
+      nodePort: 30080  # vanjski port (30000–32767)

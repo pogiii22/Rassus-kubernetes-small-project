@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: temperature-app      # ime Service-a, bitno za interni pristup
+spec:
+  selector:
+    app: temperature-app     # labela koja povezuje Service s Pod-ovima
+  ports:
+    - protocol: TCP
+      port: 8080             # port Service-a (koji drugi servisi/klijenti koriste)
+      targetPort: 8080       # port na Pod-u gdje aplikacija sluša
+  type: ClusterIP            # default, dostupan samo unutar cluster-a

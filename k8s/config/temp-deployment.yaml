@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: temperature-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: temperature-app
+  template:
+    metadata:
+      labels:
+        app: temperature-app
+    spec:
+      containers:
+        - name: temperature-app
+          image: temperature:0.0.1-SNAPSHOT
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: temperature-config-volume
+              mountPath: /data
+              readOnly: true
+      volumes:
+        - name: temperature-config-volume
+          configMap:
+            name: temperature-config

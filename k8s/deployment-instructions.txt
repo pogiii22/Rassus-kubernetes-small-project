@@ -1,0 +1,45 @@
+AP
+Pokretanje 3.labosa:
+
+u Intellidj ili nekom drugom IDE napraviti nad aplikacijama bootBuildImage
+ ili ./gradlew bootBuildImage
+ili napraviti kontenjere za njih.
+
+Nakon toga otvaramo Rancher Desktop i otvaramo terminal u mapi k8s/config 
+gdje nam se nalaze datoteke koje ćemo pokrenuti:
+
+kubectl apply -f aggregation-config.yaml
+kubectl apply -f temperature-config.yaml
+kubectl apply -f humidity-config.yaml
+
+kubectl apply -f aggregation-deployment.yaml
+kubectl apply -f temp-deployment.yaml
+kubectl apply -f humidity-deployment.yaml
+
+kubectl apply -f aggregation-service.yaml
+kubectl apply -f temp-service.yaml
+kubectl apply -f humidity-service.yaml
+
+nakon toga možemo vidjeti kontenjere/podove s naredbom:
+kubectl get pods
+
+ako želimo otvoriti logs nekog od kontenjera/podova:
+kubectl logs _imePoda_
+
+Podove gasimo:
+npr. kubectl scale deployment aggregation-app --replicas=0
+
+Ako želimo isprobati aplikaciju, možemo poslati zahtjev preko postmana:
+http://localhost:30080/getreadings
+
+ili
+curl http://localhost:30080/getreadings
+
+Dobivat ćemo samo u stupnjevima. Nije dobro konfiguriran configMap ili
+routing do configMap pa se ne mogu postaviti Kelvini, ali implementacija
+postoji.
+
+Ako se aplikacija želi isprobati bez kontenjera, tada se u TextLoaderu
+od temperature-microservice i humidity-service treba zamijeniti kod u komentarima
+i postaviti readings[7].csv u main/resources. U aggregation-service se u 
+application.properties treba promijeniti ip adrese aplikacija.

@@ -1,0 +1,12 @@
+apiVersion: v1
+data:
+  application.properties: |
+    spring.application.name=TemperatureAPI
+    server.port=8082
+    # Izaberi mjernu jedinicu: C or K
+    temperature.unit=K
+    temperature.service.url=http://temperature-app:8080
+    humidity.service.url=http://humidity-app:8081
+kind: ConfigMap
+metadata:
+  name: aggregation-config
